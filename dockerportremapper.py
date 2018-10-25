@@ -65,5 +65,3 @@ container_id = get_container_id()
 #print(container_id)
 
 stop_docker_container_and_engine(container_id)
-
-#test
