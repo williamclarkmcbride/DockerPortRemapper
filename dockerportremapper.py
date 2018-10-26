@@ -125,3 +125,5 @@ def main():
     print(message)
 
     start_docker_container_and_engine(container_id)
+
+main()
