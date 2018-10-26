@@ -88,13 +88,40 @@ def get_hostconfig_json(container_id, container_port_number, host_port_number, t
     new_hostconfig_file = open(hostconfig_path, "w")
     json.dump(hostconfig_json_data, new_hostconfig_file)
 
-    return
+    message = "Completed Successfully"
 
+    return message
 
-is_docker_local = get_local_or_remote()
-#print(is_docker_local)
+def get_container_port_number():
 
-container_id = get_container_id()
-#print(container_id)
+    print("Enter the container port that you want to remap to a new port on the host:\n")
+    container_port_number = input()
 
-stop_docker_container_and_engine(container_id)
+    return container_port_number
+
+def get_host_port_number ():
+
+    print("Enter the host port that you want to remap the container port to:\n")
+    host_port_number = input()
+
+    return host_port_number
+
+def main():
+
+    #is_docker_local = get_local_or_remote()
+
+    container_id = get_container_id()
+
+    container_port_number = get_container_port_number()
+
+    host_port_number = get_host_port_number()
+
+    tcp = get_tcp_or_udp()
+
+    stop_docker_container_and_engine(container_id)
+
+    message = get_hostconfig_json(container_id, container_port_number, host_port_number, tcp)
+
+    print(message)
+
+    start_docker_container_and_engine(container_id)
