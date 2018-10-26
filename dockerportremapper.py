@@ -5,7 +5,7 @@ import urllib3.exceptions
 
 def get_container_id():
     
-    print("Please enter or paste the name or id of the container you want to rebind: ")
+    print("Please enter or paste the name or id of the container you want to rebind:")
     container_id = input()
     try:
         docker_client = docker.from_env()
@@ -94,14 +94,14 @@ def get_hostconfig_json(container_id, container_port_number, host_port_number, t
 
 def get_container_port_number():
 
-    print("Enter the container port that you want to remap to a new port on the host:\n")
+    print("Enter the container port that you want to remap to a new port on the host:")
     container_port_number = input()
 
     return container_port_number
 
 def get_host_port_number ():
 
-    print("Enter the host port that you want to remap the container port to:\n")
+    print("Enter the host port that you want to remap the container port to:")
     host_port_number = input()
 
     return host_port_number
