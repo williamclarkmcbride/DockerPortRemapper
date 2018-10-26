@@ -81,8 +81,8 @@ def main(container_id, host_port_number, container_port_number, tcp):
     print (status)
 
 script_input_container_id = sys.argv[1]
-script_input_container_port_number = sys.argv[2]
-script_input_host_port_number = sys.argv[3]
+script_input_host_port_number = sys.argv[2]
+script_input_container_port_number = sys.argv[3]
 script_input_tcp = sys.argv[4]
 
-main(script_input_container_id, script_input_container_port_number, script_input_host_port_number, script_input_tcp)
+main(script_input_container_id, script_input_host_port_number, script_input_container_port_number, script_input_tcp)
