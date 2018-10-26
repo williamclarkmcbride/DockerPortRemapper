@@ -1,5 +1,5 @@
-1. Implement the main program
-2. Implement UDP support
+1. Implement the main program - DONE
+2. Implement UDP support - DONE
 3. Implement IP rebinding
 4. Implement support for running over the network and not just directly on the Docker host
 5. Implement support for connecting to a Docker host running TLS
