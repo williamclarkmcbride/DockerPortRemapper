@@ -21,3 +21,5 @@ and containerport number is the internal port on the container you are changing 
 and tcp is either True or False. Use True for TCP and False for UDP
 
 This script will stop the entire Docker engine and then restart it. Currently I do not know of any other ways to do this without stopping the entire engine, short of recreating the container.
+
+Currently this only works on servers running Systemd, I might add support for other init systems soon, it's just a matter of changing two lines
