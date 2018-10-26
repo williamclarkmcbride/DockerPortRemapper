@@ -58,7 +58,7 @@ def start_docker_container_and_engine(container_id):
 
     return status
 
-def get_tcp_or_upd():
+def get_tcp_or_udp():
 
     print("Is the port binding for TCP or UDP?\n1 TCP\n2 UDP")
     response = input()
@@ -84,7 +84,7 @@ def get_hostconfig_json(container_id, container_port_number, host_port_number, t
     hostconfig_json_data = json.load(hostconfig_file)
     hostconfig_json_data['PortBindings'][container_port_binding][0]['HostPort'] = host_port_number
 
-    os.remove(hostconfig_file)
+    os.remove(hostconfig_path)
     new_hostconfig_file = open(hostconfig_path, "w")
     json.dump(hostconfig_json_data, new_hostconfig_file)
 
