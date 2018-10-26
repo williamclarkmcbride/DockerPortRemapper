@@ -1,6 +1,6 @@
 import docker
 import os
-import fileinput
+import json
 import urllib3.exceptions
 
 def get_container_id():
@@ -57,6 +57,39 @@ def start_docker_container_and_engine(container_id):
     status = "Container and Docker Engine started successfully"
 
     return status
+
+def get_tcp_or_upd():
+
+    print("Is the port binding for TCP or UDP?\n1 TCP\n2 UDP")
+    response = input()
+    if response == "1":
+        tcp = True
+    elif response == "2":
+        tcp = False
+    else:
+        print("Invalid selection")
+        tcp = get_tcp_or_udp()
+    
+    return tcp
+
+def get_hostconfig_json(container_id, container_port_number, host_port_number, tcp = True):
+
+    if tcp:
+        container_port_binding = container_port_number + "/tcp"
+    else:
+        container_port_binding = container_port_number + "/udp"
+    
+    hostconfig_path = "/var/lib/docker/containers/" + container_id + "/hostconfig.json"
+    hostconfig_file = open(hostconfig_path, "r+")
+    hostconfig_json_data = json.load(hostconfig_file)
+    hostconfig_json_data['PortBindings'][container_port_binding][0]['HostPort'] = host_port_number
+
+    os.remove(hostconfig_file)
+    new_hostconfig_file = open(hostconfig_path, "w")
+    json.dump(hostconfig_json_data, new_hostconfig_file)
+
+    return
+
 
 is_docker_local = get_local_or_remote()
 #print(is_docker_local)
