@@ -2,11 +2,10 @@ import docker
 import os
 import json
 import urllib3.exceptions
+import sys
 
-def get_container_id():
+def get_container_id(container_id):
     
-    print("Please enter or paste the name or id of the container you want to rebind:")
-    container_id = input()
     try:
         docker_client = docker.from_env()
         docker_container = docker_client.containers.get(container_id)
@@ -16,23 +15,6 @@ def get_container_id():
     container_id = docker_container.id
 
     return container_id
-
-def get_local_or_remote():
-
-    print("Is the Docker host local or is it on a remote server? Enter the number that matches\n1 local\n2 remote")
-    user_entry = input()
-
-    if user_entry == "1":
-        is_docker_local = True
-    elif user_entry == "2":
-        is_docker_local = False
-        print("Rebinding ports for a remote Docker engine has not been implemented yet")
-        quit()
-    else:
-        print("Invalid entry, please enter a valid option")
-        is_docker_local = get_local_or_remote()
-    
-    return is_docker_local
 
 def stop_docker_container_and_engine(container_id):
     
@@ -58,20 +40,6 @@ def start_docker_container_and_engine(container_id):
 
     return status
 
-def get_tcp_or_udp():
-
-    print("Is the port binding for TCP or UDP?\n1 TCP\n2 UDP")
-    response = input()
-    if response == "1":
-        tcp = True
-    elif response == "2":
-        tcp = False
-    else:
-        print("Invalid selection")
-        tcp = get_tcp_or_udp()
-    
-    return tcp
-
 def get_hostconfig_json(container_id, container_port_number, host_port_number, tcp = True):
 
     if tcp:
@@ -88,42 +56,33 @@ def get_hostconfig_json(container_id, container_port_number, host_port_number, t
     new_hostconfig_file = open(hostconfig_path, "w")
     json.dump(hostconfig_json_data, new_hostconfig_file)
 
-    message = "Completed Successfully"
+    status = "Ports remapped successfully"
 
-    return message
+    return status
 
-def get_container_port_number():
-
-    print("Enter the container port that you want to remap to a new port on the host:")
-    container_port_number = input()
-
-    return container_port_number
-
-def get_host_port_number ():
-
-    print("Enter the host port that you want to remap the container port to:")
-    host_port_number = input()
-
-    return host_port_number
-
-def main():
+def main(container_id, host_port_number, container_port_number, tcp):
 
     #is_docker_local = get_local_or_remote()
 
-    container_id = get_container_id()
+    #container_id = get_container_id()
 
-    container_port_number = get_container_port_number()
+    #container_port_number = get_container_port_number()
 
-    host_port_number = get_host_port_number()
+    #host_port_number = get_host_port_number()
 
-    tcp = get_tcp_or_udp()
+    #tcp = get_tcp_or_udp()
 
-    stop_docker_container_and_engine(container_id)
+    container_id = get_container_id(container_id)
+    status = stop_docker_container_and_engine(container_id)
+    print(status)
+    status= get_hostconfig_json(container_id, container_port_number, host_port_number, tcp)
+    print(status)
+    status = start_docker_container_and_engine(container_id)
+    print (status)
 
-    message = get_hostconfig_json(container_id, container_port_number, host_port_number, tcp)
+script_input_container_id = sys.argv[1]
+script_input_container_port_number = sys.argv[2]
+script_input_host_port_number = sys.argv[3]
+script_input_tcp = sys.argv[4]
 
-    print(message)
-
-    start_docker_container_and_engine(container_id)
-
-main()
+main(script_input_container_id, script_input_container_port_number, script_input_host_port_number, script_input_tcp)
