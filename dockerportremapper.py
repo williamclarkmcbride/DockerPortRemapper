@@ -62,21 +62,14 @@ def get_hostconfig_json(container_id, container_port_number, host_port_number, t
 
 def main(container_id, host_port_number, container_port_number, tcp):
 
-    #is_docker_local = get_local_or_remote()
-
-    #container_id = get_container_id()
-
-    #container_port_number = get_container_port_number()
-
-    #host_port_number = get_host_port_number()
-
-    #tcp = get_tcp_or_udp()
-
     container_id = get_container_id(container_id)
+
     status = stop_docker_container_and_engine(container_id)
     print(status)
+
     status= get_hostconfig_json(container_id, container_port_number, host_port_number, tcp)
     print(status)
+    
     status = start_docker_container_and_engine(container_id)
     print (status)
 
